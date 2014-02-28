@@ -3,38 +3,45 @@ UNOFFICIAL GITHUB BUTTONS
 
 Showcase your GitHub (repo's) success with these three simple, static buttons featuring dynamic watch, fork and follower counts and a link to your GitHub repo or profile page.
 
-To get started, checkout http://ghbtns.com!
+__This is a fork of the Mark Otto's work : [http://ghbtns.com](http://ghbtns.com)__
 
+To get started, checkout http://onigoetz.ch/github-buttons!
 
 
 Usage
 -----
 
-These buttons are hosted via GitHub Pages, meaning all you need to do is include an iframe and you're set. Once included, you can configure it with various options. Here's the include:
+The difference of this fork and the original one is that the fork doesn't use iframes with the following advantages:
+- You don't have to calculate the width of your iframe
+- Better loading time, the JS/CSS is only loaded once
+- The `data:image` is only parsed once
+
+These buttons are hosted via GitHub Pages, meaning all you need to do is include an JS/CSS file and start to use them right in your code.
 
 ``` html
-<iframe src="http://ghbtns.com/github-btn.html?user=USERNAME&repo=REPONAME&type=BUTTONTYPE"
-  allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+	<link href="//onigoetz.ch/github-buttons/btn.min.css" rel=stylesheet>
+	<script src="//onigoetz.ch/github-buttons/btn.min.js" async></script>
+	<span class="github-btn" data-type=BUTTONTYPE data-user=USERNAME data-repo=REPONAME></span>
 ```
 
 ### Requirements
 
-`user`<br>
+`data-user`<br>
 GitHub username that owns the repo<br>
 
-`repo`<br>
+`data-repo`<br>
 GitHub repository to pull the forks and watchers counts
 
-`type`<br>
-Type of button to show: `watch`, `fork`, or `follow`
+`data-type`<br>
+Type of button to show: `watch` or `fork` or `follow`
 
 ### Optional
 
-`count`<br>
+`data-count`<br>
 Show the optional watchers or forks count: *none* by default or `true`
 
-`size`<br>
-Optional flag for using a larger button: *none* by default or `large`
+### Button size
+There are two sizes available, if normal and big, if you want it big, add the `github-btn-large` class to the button
 
 
 
@@ -44,95 +51,65 @@ Examples
 **Basic Watch button**
 
 ``` html
-<iframe src="http://ghbtns.com/github-btn.html?user=mdo&repo=github-buttons&type=watch"
-  allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+	<span class="github-btn" data-type=watch data-user=onigoetz data-repo=github-buttons></span>
 ```
 
 **Basic Fork button**
 
 ``` html
-<iframe src="http://ghbtns.com/github-btn.html?user=mdo&repo=github-buttons&type=fork"
-  allowtransparency="true" frameborder="0" scrolling="0" width="53" height="20"></iframe>
+	<span class="github-btn" data-type=fork data-user=onigoetz data-repo=github-buttons></span>
 ```
 
 **Basic Follow button**
 
 ``` html
-<iframe src="http://ghbtns.com/github-btn.html?user=mdo&type=follow"
-  allowtransparency="true" frameborder="0" scrolling="0" width="132" height="20"></iframe>
+	<span class="github-btn" data-type=follow data-user=onigoetz></span>
 ```
 
 **Watch with count**
 
 ``` html
-<iframe src="http://ghbtns.com/github-btn.html?user=mdo&repo=github-buttons&type=watch&count=true"
-  allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+	<span class="github-btn" data-type=watch data-user=onigoetz data-repo=github-buttons data-count=true></span>
 ```
 
 **Fork with count**
 
 ``` html
-<iframe src="http://ghbtns.com/github-btn.html?user=mdo&repo=github-buttons&type=fork&count=true"
-  allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+	<span class="github-btn" data-type=fork data-user=onigoetz data-repo=github-buttons data-count=true></span>
 ```
 
 **Follow with count**
 
 ``` html
-<iframe src="http://ghbtns.com/github-btn.html?user=mdo&type=follow&count=true"
-  allowtransparency="true" frameborder="0" scrolling="0" width="165" height="20"></iframe>
+	<span class="github-btn" data-type=follow data-user=onigoetz data-repo=github-buttons data-count=true></span>
 ```
 
 **Large Watch button with count**
 
 ``` html
-<iframe src="http://ghbtns.com/github-btn.html?user=mdo&repo=github-buttons&type=watch&count=true&size=large"
-  allowtransparency="true" frameborder="0" scrolling="0" width="170" height="30"></iframe>
+	<span class="github-btn github-btn-large" data-type=watch data-user=onigoetz data-repo=github-buttons data-count=true></span>
 ```
-
-Limitations
------------
-
-For the first version, functionality is limited and some concessions were made:
-
-- Width and height must be specificed for all buttons (which actually adds some control for those with OCD like myself).
-- All attributes must be passed through via URL parameters.
-- CSS and javascript are all included in the same HTML file to reduce complexity and requests.
-
-**Usage with SSL**
-
-In order to avoid `insecure content` warnings when using GitHub Buttons on a page behind an SSL certificate, simply host a copy of the `github-btn.html` file on your secure directory and substitute your domain in the iframe include: 
-
-``` html
-<iframe src="https://YOURDOMAIN.com/github-btn.html?user=USERNAME&repo=REPONAME&type=BUTTONTYPE"
-  allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
-```
-
-More refinement and functionalty is planned with open-sourcing--any help is always appreciated!
-
 
 
 Bug tracker
 -----------
 
-Have a bug? Please create an issue here on GitHub at https://github.com/mdo/github-buttons/issues.
-
-
-
-Twitter account
----------------
-
-Keep up to date on announcements and more by following Mark on Twitter, <a href="http://twitter.com/mdo">@mdo</a>.
+Have a bug? Please create an issue here on GitHub at https://github.com/onigoetz/github-buttons/issues.
 
 
 
 Authors
 -------
 
-**Mark Otto**
+**Mark Otto** - Creator
 
 + http://twitter.com/mdo
-+ http://github.com/mdo
++ http://github.com/markdotto
+
+**Stéphane Goetz** - Iframe remover
+
++ http://twitter.com/onigoetz
++ http://github.com/onigoetz
 
 
 
