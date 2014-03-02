@@ -15,6 +15,7 @@ The difference of this fork and the original one is that the fork doesn't use if
 - You don't have to calculate the width of your iframe
 - Better loading time, the JS/CSS is only loaded once
 - The `data:image` is only parsed once
+- when you show multiple buttons for the same repository (for example stars and forks) the jsonp request is made only once
 
 These buttons are hosted via GitHub Pages, meaning all you need to do is include an JS/CSS file and start to use them right in your code.
 
