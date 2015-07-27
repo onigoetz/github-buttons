@@ -21,17 +21,42 @@
         domain = protocol + dom,
         head = doc.getElementsByTagName('head')[0],
         callback_count = 1,
-        queue = {};
+        queue = {},
+	    labelSuffix = ' on GitHub';
 
     // Add commas to numbers
     function addCommas(n) {
         return String(n).replace(/(\d)(?=(\d{3})+$)/g, '$1,')
     }
+	
+	function getLabel(counter, type) {
+		var title = '';
+		
+		switch (type) {
+		    case 'watch':
+			  title = ' watchers';
+		      break;
+		    case 'star':
+		      title = ' stargazers';
+		      break;
+		    case 'fork':
+		      title = ' forks';
+		      break;
+		    case 'follow':
+		      title = ' followers';
+		      break;
+		   default: 
+			  return;
+		  }
+		  
+      counter.setAttribute('aria-label', counter.innerHTML + title + labelSuffix);
+	  counter.style.display = 'block';
+	}
 
     function init(mainButton) {
 
         //init button
-        mainButton.innerHTML = '<a class="gh-btn" href="#" target="_blank"><span class="gh-ico"></span><span class="gh-text"></span></a><a class="gh-count" href="#" target="_blank"></a>';
+        mainButton.innerHTML = '<a class="gh-btn" href="#" target="_blank"><span class="gh-ico" aria-hidden="true"></span><span class="gh-text"></span></a><a class="gh-count" href="#" target="_blank"></a>';
 
         //get parameters
         var params = {}, attr = mainButton.attributes;
@@ -47,25 +72,31 @@
             type = params.type,
             button = mainButton.getElementsByClassName('gh-btn')[0],
             text = mainButton.getElementsByClassName('gh-text')[0],
-            counter = mainButton.getElementsByClassName('gh-count')[0];
+		    counter = mainButton.getElementsByClassName('gh-count')[0];
 
         function request(path) {
-            var key = (type == 'fork') ? 'forks' : type + 'ers',
-                el = queue[path] || (queue[path] = []);
+			var el = queue[path] || (queue[path] = []),
+			    key = type + 'ers';
+			if (type == 'fork') {
+				key = 'forks';
+			} else if (type == 'star') {
+				key = 'stargazers_count';
+			}
 
             el.push(function (obj) {
                 if (obj.data[key] === undefined) return; //if the api limit is exceeded or the request failed
+				getLabel(counter, type);
                 counter.innerHTML = addCommas(obj.data[key]);
-                counter.style.display = 'block';
             });
         }
-
-        // Set href to be URL for repo
-        button.href = 'https://github.com/' + user + '/' + repo + '/';
 
         // Add the class, change the text label, set count link href
         if (type == 'watch') {
             mainButton.className += ' github-watchers';
+            text.innerHTML = 'Watch';
+            counter.href = domain + user + '/' + repo + '/watchers';
+        } else if (type == 'star') {
+            mainButton.className += ' github-stargazers';
             text.innerHTML = 'Star';
             counter.href = domain + user + '/' + repo + '/stargazers';
         } else if (type == 'fork') {
@@ -78,6 +109,10 @@
             button.href = domain + user;
             counter.href = domain + user + '/followers';
         }
+		
+		// Set href to be URL for repo
+		button.href = 'https://github.com/' + user + '/' + repo + '/';
+		button.setAttribute('aria-label', text.innerHTML + labelSuffix);
 
         if (params.count == 'true') {
             request(type == 'follow' ? 'users/' + user : 'repos/' + user + '/' + repo);

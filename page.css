@@ -115,13 +115,14 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
 }
 .about-star,
+.about-watch,
 .about-fork,
 .about-follow {
-  width: 32%;
+  width: 46%;
   float: left;
 }
-.about-buttons div + div {
-  margin-left: 2%;
+.about-buttons div {
+  margin:20px 2%;
 }
 .about-buttons ul {
   margin-left: 0;
@@ -189,6 +190,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .about-watch,
+  .about-star,
   .about-fork,
   .about-follow {
     width: auto;
